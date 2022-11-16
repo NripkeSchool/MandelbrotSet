@@ -16,7 +16,7 @@ import java.text.DecimalFormat;
 public class MandelbrotSet extends Application
 {
    private double screenSize = 1000;
-   private int iterations = 100;
+   private int iterations = 200;
    private Group root = new Group();
    private Color[] colors = new Color[iterations];
    private boolean clicked = false;
@@ -26,7 +26,16 @@ public class MandelbrotSet extends Application
    public void start(Stage primaryStage)
    {
       generateColors(iterations);
-      mandelbrot(-2, 2,2, -2); //Usually from -2, 2
+      /**
+       * Of the form: small X, big X, big Y, small Y
+       */
+      mandelbrot(-2, 2, 2, -2); //Usually from -2, 2, 2, -2
+      /**
+       * FOR MATH CLUB:
+       * Normal: mandelbrot(-2, 2, 2, -2);
+       * Burning Ship 1st Zoom: mandelbrot(-1.792, -1.712, 0, -0.08);
+       */
+      
       /** .296950524, .01946304, .296975088, .0194464
        * Favorite zooms: 
        * .296, .300, .02, .016
@@ -172,7 +181,7 @@ public class MandelbrotSet extends Application
    
    //Note that for the Mandelbrot set, our starting point is the origin,
    //And p represents our constant
-
+   //**USE THIS METHOD TO CHANGE THE DYNAMICAL SYSTEM!!
    public int checkStable(ComplexNumber p)
    {
        ComplexNumber origin = new ComplexNumber(0, 0);
@@ -187,12 +196,21 @@ public class MandelbrotSet extends Application
        return 0;
    }
    
-   //***EDIT THIS EQUATION TO CHANGE MANDELBROT SET
+   /**Regular Mandelbrot:
+    * zn1.addThis(zn.pow(2));
+      zn1.addThis(constant);
+    * 
+    * Burning Ship: 
+    * zn1.addThis(zn.weirdAbs().pow(2));
+       zn1.addThis(constant);
+       
+       Other submissions!:
+    */
    public ComplexNumber equation(ComplexNumber zn, ComplexNumber constant)
    {
        ComplexNumber zn1 = new ComplexNumber(0, 0);
        zn1.addThis(zn.pow(2));
-       zn1.subtractThis(constant);
+       zn1.addThis(constant);
        return zn1;
    }
    
@@ -250,6 +268,43 @@ public class MandelbrotSet extends Application
         return w;
     }
     
+    public void divideThis(ComplexNumber z)
+    {
+        ComplexNumber w = this.multiply(z.conjugate());
+        w.divideConstThis(z.getReal()*z.getReal()+ z.getImg()*z.getImg());
+        real = w.getReal();
+        img = w.getImg();
+    }
+    
+    public ComplexNumber divide(ComplexNumber z)
+    {
+        ComplexNumber w = new ComplexNumber(real, img);
+        w.multiplyThis(z);
+        return w;
+    }
+    
+    public ComplexNumber multiplyConst(double k)
+    {
+        return new ComplexNumber(real*k, img*k);
+    }
+    
+    public void multiplyConstThis(double k)
+    {
+        real *= k;
+        img *= k;
+    }
+    
+    public ComplexNumber divideConst(double k)
+    {
+        return new ComplexNumber(real/k, img/k);
+    }
+    
+    public void divideConstThis(double k)
+    {
+        real /= k;
+        img /= k;
+    }
+    
     public void powThis(int p)
     {
         ComplexNumber z = new ComplexNumber(real, img);
@@ -269,6 +324,54 @@ public class MandelbrotSet extends Application
     public double abs()
     {
         return Math.sqrt(real*real + img*img);
+    }
+    
+    public ComplexNumber weirdAbs()
+    {
+        return new ComplexNumber(Math.abs(real), Math.abs(img));
+    }
+    
+    public ComplexNumber conjugate()
+    {
+        return new ComplexNumber(real, -img);
+    }
+    
+    public ComplexNumber realConjugate()
+    {
+        return new ComplexNumber(-real, img);
+    }
+    
+    public ComplexNumber swap()
+    {
+        return new ComplexNumber(img, real);
+    }
+    
+    public ComplexNumber trigify()
+    {
+        //Note java.cos/sin use radians
+        return new ComplexNumber(Math.cos(real), Math.sin(img));
+    }
+    
+    //Taylor series expansion
+    public ComplexNumber sin()
+    {
+        ComplexNumber z = new ComplexNumber(0, 0);
+        z.addThis(this);
+        z.subtractThis(this.pow(3).divideConst(6));
+        z.addThis(this.pow(5).divideConst(120));
+        
+        return z;
+    }
+    
+    //Taylor series expansion
+    public ComplexNumber cos()
+    {
+        ComplexNumber z = new ComplexNumber(0, 0);
+        z.addThis(new ComplexNumber(1, 0));
+        z.subtractThis(this.pow(2).divideConst(2));
+        z.addThis(this.pow(4).divideConst(24));
+        
+        return z;
     }
     
     public double getReal()
