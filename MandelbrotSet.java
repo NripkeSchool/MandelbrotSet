@@ -15,7 +15,7 @@ import java.text.DecimalFormat;
 
 public class MandelbrotSet extends Application
 {
-   private double screenSize = 1000;
+   private double screenSize = 800;
    private int iterations = 200;
    private Group root = new Group();
    private Color[] colors = new Color[iterations];
@@ -29,7 +29,7 @@ public class MandelbrotSet extends Application
       /**
        * Of the form: small X, big X, big Y, small Y
        */
-      mandelbrot(-2, 2, 2, -2); //Usually from -2, 2, 2, -2
+      mandelbrot(-.636, -.113, -.036, -.546); //Usually from -2, 2, 2, -2
       /**
        * FOR MATH CLUB:
        * Normal: mandelbrot(-2, 2, 2, -2);
@@ -169,10 +169,12 @@ public class MandelbrotSet extends Application
                {
                   Rectangle c = new Rectangle(x, y, 1, 1);
                   c.setFill(Color.BLACK);
+                  c.setStroke(Color.BLACK);
                   root.getChildren().add(c);
                }else {
                   Rectangle c = new Rectangle(x, y, 1, 1);
                   c.setFill(colors[result]);
+                  c.setStroke(colors[result]);
                   root.getChildren().add(c);
                }
            }
@@ -205,11 +207,37 @@ public class MandelbrotSet extends Application
        zn1.addThis(constant);
        
        Other submissions!:
+       Noah Levy: Trigify()
+       
+       Ale D'alessio: zn1.addThis(zn.swap().conjugate().sin());
+       zn1.addThis(constant);
+       
+       Long Set: zn1.addThis(zn.sin().cos().sin());
+       zn1.addThis(constant);
+       
+       Yang Set: zn1.addThis(zn.pow(3).swap().sin());
+       zn1.addThis(constant);
+       
+       Glick Set: zn1.addThis(zn.pow((int) constant.getReal()));
+       zn1.addThis(constant);
+       
+       Kennedy Set: zn1.addThis(zn.trigify().swap().pow(2));
+       zn1.addThis(constant);
+       
+       Ripke-Yang Set: 
+        zn1.addThis(zn.pow(3).swap().sin().pow(2));
+       zn1.addThis(constant);
+       
+       Ripke-Levy Set:
+       zn1.addThis(zn.divide(zn.trigify()).pow(2));
+       zn1.addThis(constant);
     */
    public ComplexNumber equation(ComplexNumber zn, ComplexNumber constant)
    {
        ComplexNumber zn1 = new ComplexNumber(0, 0);
-       zn1.addThis(zn.pow(2));
+       ComplexNumber w = new ComplexNumber(0, 0);
+       
+       zn1.addThis(zn.swap().conjugate().sin());
        zn1.addThis(constant);
        return zn1;
    }
