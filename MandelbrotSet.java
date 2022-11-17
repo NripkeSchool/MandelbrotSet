@@ -16,7 +16,7 @@ import java.text.DecimalFormat;
 public class MandelbrotSet extends Application
 {
    private double screenSize = 800;
-   private int iterations = 200;
+   private int iterations = 100;
    private Group root = new Group();
    private Color[] colors = new Color[iterations];
    private boolean clicked = false;
@@ -29,11 +29,17 @@ public class MandelbrotSet extends Application
       /**
        * Of the form: small X, big X, big Y, small Y
        */
-      mandelbrot(-.636, -.113, -.036, -.546); //Usually from -2, 2, 2, -2
+      mandelbrot(-2, 2, 2, -2); //Usually from -2, 2, 2, -2
       /**
        * FOR MATH CLUB:
        * Normal: mandelbrot(-2, 2, 2, -2);
        * Burning Ship 1st Zoom: mandelbrot(-1.792, -1.712, 0, -0.08);
+       * D'Alessio Set 1st Zoom: mandelbrot(-.636, -.113, -.036, -.546);
+       * D'Alessio Set 2nd Zoom: mandelbrot(-.56801, -.551666, -.183262, -.20175);
+       * D'Alessio Set 3rd Zoom: mandelbrot(-.555649, -.55468964, -.19745154, -.19835154);
+       * 
+       * Weisman Set 1st Zoom: mandelbrot(-.37, -.175, 1.675, 1.48);
+       * Weisman Set 2nd Zoom: mandelbrot(-.198875, -.19449, 1.5024, 1.498);
        */
       
       /** .296950524, .01946304, .296975088, .0194464
@@ -169,12 +175,10 @@ public class MandelbrotSet extends Application
                {
                   Rectangle c = new Rectangle(x, y, 1, 1);
                   c.setFill(Color.BLACK);
-                  c.setStroke(Color.BLACK);
                   root.getChildren().add(c);
                }else {
                   Rectangle c = new Rectangle(x, y, 1, 1);
                   c.setFill(colors[result]);
-                  c.setStroke(colors[result]);
                   root.getChildren().add(c);
                }
            }
@@ -231,13 +235,25 @@ public class MandelbrotSet extends Application
        Ripke-Levy Set:
        zn1.addThis(zn.divide(zn.trigify()).pow(2));
        zn1.addThis(constant);
+       
+       M-Weisman Set:
+       zn1.addThis(zn.cos().sin().conjugate().pow(2));
+       zn1.addThis(constant);
+       
+       C-Weisman Set:
+       zn1.addThis(zn.sin().add(zn).trigify().swap().pow(2));
+       zn1.addThis(constant);
+       
+       Ripke Set:
+       zn1.addThis(zn.divide(zn.sin()).trigify().pow(2));
+       zn1.addThis(constant.multiply(zn));
     */
    public ComplexNumber equation(ComplexNumber zn, ComplexNumber constant)
    {
        ComplexNumber zn1 = new ComplexNumber(0, 0);
        ComplexNumber w = new ComplexNumber(0, 0);
        
-       zn1.addThis(zn.swap().conjugate().sin());
+       zn1.addThis(zn.sin().add(zn).trigify().swap().pow(2));
        zn1.addThis(constant);
        return zn1;
    }
