@@ -262,7 +262,7 @@ public class MandelbrotSet extends Application
 {
     double real;
     double img;
-    
+    double max = 6;
     public ComplexNumber(double r, double i)
     {
         real = r;
@@ -293,7 +293,7 @@ public class MandelbrotSet extends Application
     
     public boolean isStable()
     {
-        return (real > -2) && (real < 2) && (img > -2) && (img < 2);
+        return (real > -max) && (real < max) && (img > -max) && (img < max);
     }
     
     public void multiplyThis(ComplexNumber z)
