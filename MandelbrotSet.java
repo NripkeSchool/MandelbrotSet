@@ -29,10 +29,12 @@ public class MandelbrotSet extends Application
       /**
        * Of the form: small X, big X, big Y, small Y
        */
-      mandelbrot(-2, 2, 2, -2); //Usually from -2, 2, 2, -2
+      double square = 4;
+      mandelbrot(-square, square, square, -square); //Usually from -2, 2, 2, -2
       /**
        * FOR MATH CLUB:
        * Normal: mandelbrot(-2, 2, 2, -2);
+       * mandelbrot(-square, square, square, -square);
        * Burning Ship 1st Zoom: mandelbrot(-1.792, -1.712, 0, -0.08);
        * D'Alessio Set 1st Zoom: mandelbrot(-.636, -.113, -.036, -.546);
        * D'Alessio Set 2nd Zoom: mandelbrot(-.56801, -.551666, -.183262, -.20175);
@@ -40,7 +42,13 @@ public class MandelbrotSet extends Application
        * 
        * Weisman Set 1st Zoom: mandelbrot(-.37, -.175, 1.675, 1.48);
        * Weisman Set 2nd Zoom: mandelbrot(-.198875, -.19449, 1.5024, 1.498);
-       */
+       * 
+       * Cos zoom 1: mandelbrot(2.153, 2.613, 1.453, 1.453-(2.613-2.153));
+       * Cos zoom 2: mandelbrot(2.315916, 2.32013, 1.15783, 1.15285);
+       * Cos zoom 3: mandelbrot(2.062093079125, 2.062208739025, .500482399375, .500373165025);
+         Cos zoom 4: mandelbrot(2.43896, 2.520616, 1.2092, 1.12985);
+         Cos zoom 5: mandelbrot(2.4648177, 2.489450626, 1.175873, 1.175873-(2.489450626-2.4648177));
+         */
       
       /** .296950524, .01946304, .296975088, .0194464
        * Favorite zooms: 
@@ -175,10 +183,12 @@ public class MandelbrotSet extends Application
                {
                   Rectangle c = new Rectangle(x, y, 1, 1);
                   c.setFill(Color.BLACK);
+                  c.setStroke(Color.BLACK);
                   root.getChildren().add(c);
                }else {
                   Rectangle c = new Rectangle(x, y, 1, 1);
                   c.setFill(colors[result]);
+                  c.setStroke(colors[result]);
                   root.getChildren().add(c);
                }
            }
@@ -253,7 +263,7 @@ public class MandelbrotSet extends Application
        ComplexNumber zn1 = new ComplexNumber(0, 0);
        ComplexNumber w = new ComplexNumber(0, 0);
        
-       zn1.addThis(zn.sin().add(zn).trigify().swap().pow(2));
+       zn1.addThis(zn.swap().conjugate().sin());
        zn1.addThis(constant);
        return zn1;
    }
@@ -262,7 +272,7 @@ public class MandelbrotSet extends Application
 {
     double real;
     double img;
-    double max = 6;
+    double max = 8;
     public ComplexNumber(double r, double i)
     {
         real = r;
