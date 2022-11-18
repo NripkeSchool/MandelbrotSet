@@ -403,6 +403,9 @@ public class MandelbrotSet extends Application
         z.addThis(this);
         z.subtractThis(this.pow(3).divideConst(6));
         z.addThis(this.pow(5).divideConst(120));
+        z.subtractThis(this.pow(7).divideConst(5040));
+        z.addThis(this.pow(9).divideConst(362880));
+        z.subtractThis(this.pow(11).divideConst(39916800));
         
         return z;
     }
@@ -414,6 +417,9 @@ public class MandelbrotSet extends Application
         z.addThis(new ComplexNumber(1, 0));
         z.subtractThis(this.pow(2).divideConst(2));
         z.addThis(this.pow(4).divideConst(24));
+        z.subtractThis(this.pow(6).divideConst(720));
+        z.addThis(this.pow(8).divideConst(40320));
+        z.subtractThis(this.pow(10).divideConst(3628800));
         
         return z;
     }
