@@ -434,6 +434,22 @@ public class MandelbrotSet extends Application
         return z;
     }
     
+    public ComplexNumber exp()
+    {
+        ComplexNumber z = new ComplexNumber(0, 0);
+        z.addThis(new ComplexNumber(1, 0));
+        z.addThis(this);
+        z.addThis(this.pow(2).divideConst(2));
+        z.addThis(this.pow(3).divideConst(6));
+        z.addThis(this.pow(4).divideConst(24));
+        z.addThis(this.pow(5).divideConst(120));
+        z.addThis(this.pow(6).divideConst(720));
+        z.addThis(this.pow(7).divideConst(5040));
+        z.addThis(this.pow(8).divideConst(40320));
+        
+        return z;
+    }
+    
     public double getReal()
     {
         return real;
